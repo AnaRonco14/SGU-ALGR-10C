@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import UserForm from "./components/UserForm";
 import UserList from "./components/UserList";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/sgu-api/users";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8081/sgu-api/users";
 
 export default function App() {
   const [users, setUsers] = useState([]);

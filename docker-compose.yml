@@ -13,6 +13,12 @@ services:
       - sgu-net
     volumes:
       - sgu-volume:/var/lib/mysql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   frontend:
     image: client:1.0-sgu
@@ -21,7 +27,7 @@ services:
       args:
         API_HOST: backend
         API_PORT: 8081
-        API_BASE: /sgu-api
+        API_BASE: /sgu-api/users
     container_name: sgu-frontend #Nombre del contenedor del frontend
     ports:
       - "3000:80"
@@ -47,7 +53,8 @@ services:
     networks:
       - sgu-net
     depends_on:
-      - database
+      database:
+        condition: service_healthy
 
 
 # aqui se pueden definir las redes entre contenedores
